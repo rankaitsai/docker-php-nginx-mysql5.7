@@ -6,29 +6,31 @@ services:
         restart: unless-stopped
         ports:
             # 本機port:Container的Port
-            # '8088:80'
+            # - '8088:80'
             - '{local-port}:{container-port}'
         # depends_on php
         depends_on:
             - 'php'
         volumes:
             # 對應主機./conf.d目錄到容器/etc/nginx/conf.d目錄
-            - "./php-nginx-mysql/nginx/conf.d:/etc/nginx/conf.d"
-            # './{專案}'
+            - "./php-nginx/nginx/conf.d:/etc/nginx/conf.d"
+            # './{本地src資料夾(可自定義)}:'
             - "./src:/var/www/html/{your-project}"
         networks:
           - 'app_net'
         container_name: "compose-nginx"
     php:
-        build: ./php-nginx-mysql/php/
+        build: ./php-nginx/php/
         # image指定build Dockerfile產生Container的名稱
         image: php:7.3-fpm
         restart: unless-stopped
         ports:
-            - '9000:9000'
+            # '本機port:Container的Port'
+            # - '9000:9000'
+            - '{local-port}:{container-port}'
         volumes:
             # 掛載
-            - "./:/var/www/html/[]"
+            - "./src:/var/www/html/{your-project}"
         networks:
           - 'app_net'
         container_name: "compose-php"
@@ -37,7 +39,8 @@ services:
         restart: unless-stopped
         ports:
             # 本機Port:Container的Port
-            - '3309:3306'
+            # - '3309:3306'
+            - '{local-port}:{container-port}'
         environment:
             - MYSQL_DATABASE=social-dev
             - MYSQL_ROOT_PASSWORD=example
