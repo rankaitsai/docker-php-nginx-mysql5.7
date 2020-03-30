@@ -42,8 +42,8 @@ services:
             # - '3309:3306'
             - '{local-port}:{container-port}'
         environment:
-            - MYSQL_DATABASE=social-dev
-            - MYSQL_ROOT_PASSWORD=example
+            - MYSQL_DATABASE={db-name}
+            - MYSQL_ROOT_PASSWORD={db-pwd}
         networks:
             app_net:
                 # 固定子網路ip(Container IP)，網段必須在子網路10.10.*.*
