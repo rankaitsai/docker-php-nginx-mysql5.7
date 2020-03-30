@@ -7,7 +7,7 @@ services:
         ports:
             # 本機port:Container的Port
             # - '8088:80'
-            - '{local-port}:{container-port}'
+            - '<local-port>:<container-port>'
         # depends_on php
         depends_on:
             - 'php'
@@ -15,7 +15,7 @@ services:
             # 對應主機./conf.d目錄到容器/etc/nginx/conf.d目錄
             - "./php-nginx/nginx/conf.d:/etc/nginx/conf.d"
             # './{本地lsrc資料夾(可自定義)}:/var/www/html/{your-project}'
-            - "./src:/var/www/html/{your-project}"
+            - "./src:/var/www/html/<your-project>"
         networks:
           - 'app_net'
         container_name: "compose-nginx"
@@ -27,10 +27,10 @@ services:
         ports:
             # '本機port:Container的Port'
             # - '9000:9000'
-            - '{local-port}:{container-port}'
+            - '<local-port>:<container-port>'
         volumes:
             # 掛載
-            - "./src:/var/www/html/{your-project}"
+            - "./src:/var/www/html/<your-project>"
         networks:
           - 'app_net'
         container_name: "compose-php"
@@ -40,10 +40,10 @@ services:
         ports:
             # 本機Port:Container的Port
             # - '3309:3306'
-            - '{local-port}:{container-port}'
+            - '<local-port>:<container-port>'
         environment:
-            - MYSQL_DATABASE={db-name}
-            - MYSQL_ROOT_PASSWORD={db-pwd}
+            - MYSQL_DATABASE=<db-name>
+            - MYSQL_ROOT_PASSWORD=<db-pwd>
         networks:
             app_net:
                 # 固定子網路ip(Container IP)，網段必須在子網路10.10.*.*
