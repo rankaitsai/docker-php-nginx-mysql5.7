@@ -13,3 +13,6 @@ $ cp -r <下載路徑>/php-nginx-mysql5.7/ <你的專案路徑>
 ```
 $ docker-compose up -d
 ```
+
+## 參考資料
+https://www.pascallandau.com/blog/structuring-the-docker-setup-for-php-projects/
