@@ -14,8 +14,8 @@ services:
         volumes:
             # 對應主機./conf.d目錄到容器/etc/nginx/conf.d目錄
             - "./php-nginx/nginx/conf.d:/etc/nginx/conf.d"
-            # './{本地lsrc資料夾(可自定義)}:/var/www/html/{your-project}'
-            - "./src:/var/www/html/<your-project>"
+            # './{本地web資料夾(可自定義)}:/var/www/html/{your-project}'
+            - "./web:/var/www/html/<your-project>"
         networks:
           - 'app_net'
         container_name: "compose-nginx"
@@ -30,7 +30,7 @@ services:
             - '<local-port>:<container-port>'
         volumes:
             # 掛載
-            - "./src:/var/www/html/<your-project>"
+            - "./web:/var/www/html/<your-project>"
         networks:
           - 'app_net'
         container_name: "compose-php"
