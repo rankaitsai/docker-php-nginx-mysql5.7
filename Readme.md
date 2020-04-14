@@ -7,7 +7,10 @@
 $ cp -r <下載路徑>/docker-php-nginx-mysql5.7/ <你的專案路徑>
 ```
 
-2. 將 `docker-compose.yml` 和 `./php-nginx/nginx/conf.d/nginx.conf` 中的必要參數帶入
+2. 複製 `.env.example`，並編輯設定
+```
+$ cp .env.example .env
+```
 
 3. 執行Container
 ```

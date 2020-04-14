@@ -17,8 +17,6 @@ services:
             - "./php-nginx/nginx/conf.d:/etc/nginx/conf.d"
             # './{本地web資料夾(可自定義)}:/var/www/html/{your-project}'
             - "./web:/var/www/html/${PROJECT_NAME}"
-        networks:
-          - 'app_net'
         container_name: "${NGINX_CONTAINER_NAME}"
     php:
         build: ./php-nginx/php/
@@ -32,8 +30,6 @@ services:
         volumes:
             # 掛載
             - "./web:/var/www/html/${PROJECT_NAME}"
-        networks:
-          - 'app_net'
         container_name: "${PHP_CONTAINER_NAME}"
     mysql:
         image: mysql:${MYSQL_VERSION}
@@ -48,16 +44,4 @@ services:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
             - MYSQL_USER=${MYSQL_USER}
             - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-        networks:
-            app_net:
-                # 固定子網路ip(Container IP)，網段必須在子網路10.10.*.*
-                ipv4_address: 10.10.10.1
         container_name: "${MYSQL_CONTAINER_NAME}"
-networks:
-    # 配置docker network
-    app_net:
-        driver: bridge
-        ipam:
-            config:
-                # 子網路(預設Gateway: 10.10.0.1)
-                - subnet: 10.10.0.0/16
