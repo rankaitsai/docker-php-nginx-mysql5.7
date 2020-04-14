@@ -2,7 +2,10 @@ version: '3'
 
 services:
     nginx:
-        build: ./php-nginx/nginx/
+        build: 
+            context: ./php-nginx/nginx/
+            args: 
+                - NGINX_VERSION=${NGINX_VERSION}
         image: nginx
         restart: unless-stopped
         ports:
@@ -19,14 +22,17 @@ services:
             - "./web:/var/www/html/${PROJECT_NAME}"
         container_name: "${NGINX_CONTAINER_NAME}"
     php:
-        build: ./php-nginx/php/
+        build: 
+            context: ./php-nginx/php
+            args: 
+                - PHP_VERSION=${PHP_VERSION}
         # image指定build Dockerfile產生Container的名稱
-        image: php:7.3-fpm
+        image: php
         restart: unless-stopped
         ports:
             # '本機port:Container的Port'
             # - '9000:9000'
-            - '${PHP_PORT}:${PHP_PORT}'
+            - '${PHP_PORT}:9000'
         volumes:
             # 掛載
             - "./web:/var/www/html/${PROJECT_NAME}"
