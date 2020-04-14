@@ -1,4 +1,4 @@
-FROM nginx
+FROM nginx:${NGINX_VERSION}
 
 RUN apt-get update && apt-get install -y \
     vim \

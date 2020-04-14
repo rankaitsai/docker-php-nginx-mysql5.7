@@ -8,7 +8,7 @@ services:
         ports:
             # 本機port:Container的Port
             # - '8088:80'
-            - '<local-port>:<container-port>'
+            - '${NGINX_PORT}:80'
         # depends_on php
         depends_on:
             - 'php'
@@ -16,10 +16,10 @@ services:
             # 對應主機./conf.d目錄到容器/etc/nginx/conf.d目錄
             - "./php-nginx/nginx/conf.d:/etc/nginx/conf.d"
             # './{本地web資料夾(可自定義)}:/var/www/html/{your-project}'
-            - "./web:/var/www/html/<your-project>"
+            - "./web:/var/www/html/${PROJECT_NAME}"
         networks:
           - 'app_net'
-        container_name: "compose-nginx"
+        container_name: "${NGINX_CONTAINER_NAME}"
     php:
         build: ./php-nginx/php/
         # image指定build Dockerfile產生Container的名稱
@@ -28,28 +28,31 @@ services:
         ports:
             # '本機port:Container的Port'
             # - '9000:9000'
-            - '<local-port>:<container-port>'
+            - '${PHP_PORT}:${PHP_PORT}'
         volumes:
             # 掛載
-            - "./web:/var/www/html/<your-project>"
+            - "./web:/var/www/html/${PROJECT_NAME}"
         networks:
           - 'app_net'
-        container_name: "compose-php"
+        container_name: "${PHP_CONTAINER_NAME}"
     mysql:
-        image: mysql:5.7
+        image: mysql:${MYSQL_VERSION}
         restart: unless-stopped
         ports:
             # 本機Port:Container的Port
             # - '3309:3306'
-            - '<local-port>:<container-port>'
+            - '${MYSQL_PORT}:3306'
         environment:
-            - MYSQL_DATABASE=<db-name>
-            - MYSQL_ROOT_PASSWORD=<db-pwd>
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_ROOT_USER=${MYSQL_ROOT_USER}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
         networks:
             app_net:
                 # 固定子網路ip(Container IP)，網段必須在子網路10.10.*.*
                 ipv4_address: 10.10.10.1
-        container_name: "compose-mysql"
+        container_name: "${MYSQL_CONTAINER_NAME}"
 networks:
     # 配置docker network
     app_net:
