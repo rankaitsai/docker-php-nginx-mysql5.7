@@ -19,7 +19,7 @@ services:
             # 對應主機./conf.d目錄到容器/etc/nginx/conf.d目錄
             - "./php-nginx/nginx/conf.d:/etc/nginx/conf.d"
             # './{本地web資料夾(可自定義)}:/var/www/html/{your-project}'
-            - "./web:/var/www/html/${PROJECT_NAME}"
+            - "${PROJECT_PATH}:/var/www/html/${PROJECT_NAME}"
         container_name: "${NGINX_CONTAINER_NAME}"
     php:
         build: 
@@ -35,7 +35,7 @@ services:
             - '${PHP_PORT}:9000'
         volumes:
             # 掛載
-            - "./web:/var/www/html/${PROJECT_NAME}"
+            - "${PROJECT_PATH}:/var/www/html/${PROJECT_NAME}"
         container_name: "${PHP_CONTAINER_NAME}"
     mysql:
         image: mysql:${MYSQL_VERSION}
